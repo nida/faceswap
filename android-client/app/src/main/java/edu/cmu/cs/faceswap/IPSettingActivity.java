@@ -48,10 +48,15 @@ public class IPSettingActivity extends AppCompatActivity {
         mSharedPreferences=getSharedPreferences(getString(R.string.shared_preference_file_key),
                 MODE_PRIVATE);
         addIpButton=(Button)findViewById(R.id.add_ip_button);
-nextButton=(Button)findViewById(R.id.add_next_button);
+        nextButton=(Button)findViewById(R.id.add_next_button);
+        // nextButton.setClickable(false);
+        // nextButton.setEnabled(false);
+
+
+
 //       // ipNameEditText= (EditText) findViewById(R.id.add_ip_ip_cardview);
-     ipNameEditText=(EditText)findViewById(R.id.add_ip_ip_edittext);
-      ipEditText=(EditText)findViewById(R.id.add_ip_ip_edittext);
+        ipNameEditText=(EditText)findViewById(R.id.add_ip_name_edittext);
+        ipEditText=(EditText)findViewById(R.id.add_ip_ip_edittext);
         placeSpinner=(Spinner)findViewById(R.id.add_ip_place_spinner);
         TableLayout cloudletTb = (TableLayout)findViewById(R.id.add_ip_cloudlet_table);
         TableLayout cloudTb = (TableLayout)findViewById(R.id.add_ip_cloud_table);
@@ -61,10 +66,12 @@ nextButton=(Button)findViewById(R.id.add_next_button);
         //TODO: read off sharedpreferences about current cloudlet ip and cloudip
         mActivity=this;
         nextButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(IPSettingActivity.this,
                         CloudletDemoActivity.class);
+
                 //Intent is used to switch from one activity to another.
 
                 startActivity(i);
@@ -85,7 +92,17 @@ nextButton=(Button)findViewById(R.id.add_next_button);
                 //http://stackoverflow.com/questions/21396358/sharedpreferences-putstringset-doesnt-work
                 Set<String> existingNames =
                         new HashSet<String>(mSharedPreferences.getStringSet(sharedPreferenceIpDictName,
-                        new HashSet<String>()));
+                                new HashSet<String>()));
+                boolean statePreferenceDefined = mSharedPreferences.contains("sharedPreferenceIpDictName");
+//if(!statePreferenceDefined)
+//{
+//    nextButton.setEnabled(false);
+//}
+//else
+//{
+//    nextButton.setEnabled(true);
+//}
+
                 if (name.isEmpty()){
                     notifyError("Invalid Name", false, mActivity);
                     return;
@@ -101,16 +118,26 @@ nextButton=(Button)findViewById(R.id.add_next_button);
                     notifyError("Invalid IP Address", false, mActivity);
                     return;
                 }
+
+
                 else
                 {
+
                     Toast.makeText(getApplicationContext(),"IP SUCCESFULLY ADDED",Toast.LENGTH_LONG).show();
+//                    if(existingNames.isEmpty())
+//                        nextButton.setEnabled(false);
+//                    else
+//                        nextButton.setEnabled(true);
+
                 }
+                // nextButton.setEnabled(false);
                 //add new ip in
                 SharedPreferences.Editor editor = mSharedPreferences.edit();
                 editor.putString(name,ip);
                 existingNames.add(name);
                 editor.putStringSet(sharedPreferenceIpDictName, existingNames);
                 editor.apply();
+
                 //update UI
                 addPersonUIRow(mSharedPreferences, type, name, ip);
                 ipEditText.setText("");
@@ -207,4 +234,7 @@ nextButton=(Button)findViewById(R.id.add_next_button);
                 new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
                         TableLayout.LayoutParams.WRAP_CONTENT));
     }
+
+
+
 }
