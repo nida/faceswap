@@ -43,7 +43,8 @@ import edu.cmu.cs.gabriel.Const;
 import edu.cmu.cs.gabriel.GabrielClientActivity;
 import edu.cmu.cs.gabriel.GabrielConfigurationAsyncTask;
 
-public class CloudletFragment<name> extends Fragment implements CompoundButton.OnCheckedChangeListener {
+
+public class CloudletFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
     private final int LAUNCHCODE = 0;
     private static final int DLG_EXAMPLE1 = 0;
     private static final int TEXT_ID = 1000;
@@ -134,10 +135,10 @@ public class CloudletFragment<name> extends Fragment implements CompoundButton.O
 
         selectServerSpinner=(Spinner) view.findViewById(R.id.select_server_spinner);
         cloudletRunDemoButton =(Button)view.findViewById(R.id.cloudletRunDemoButton);
-     //   addPersonButton = (Button)view.findViewById(R.id.addPersonButton);
+        addPersonButton = (Button)view.findViewById(R.id.addPersonButton);
 //        uploadStateFromFileButton = (Button)view.findViewById(R.id.uploadFromFileButton);
-////        uploadStateFromGoogleDriveButton = (Button)
-////                view.findViewById(R.id.uploadFromGoogleDriveButton);
+//        uploadStateFromGoogleDriveButton = (Button)
+//                view.findViewById(R.id.uploadFromGoogleDriveButton);
 
         tb = (TableLayout)view.findViewById(R.id.trainedTable);
         typeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -158,13 +159,13 @@ public class CloudletFragment<name> extends Fragment implements CompoundButton.O
             }
         });
 
-//        addPersonButton.setOnClickListener(new Button.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Dialog dg = createAddPersonDialog("Train", "Enter Person's name:");
-//                dg.show();
-//            }
-//        });
+        addPersonButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dg = createAddPersonDialog("Train", "Enter Person's name:");
+                dg.show();
+            }
+        });
 
 //        uploadStateFromFileButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -172,7 +173,7 @@ public class CloudletFragment<name> extends Fragment implements CompoundButton.O
 //                getMyAcitivty().actionUploadStateFromLocalFile();
 //            }
 //        });
-//
+
 //        uploadStateFromGoogleDriveButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -266,7 +267,6 @@ public class CloudletFragment<name> extends Fragment implements CompoundButton.O
         return true;
     }
 
-
     private void launchTrainingActivity(){
         String name = inputDialogResult;
         if (checkName(name)) {
@@ -303,24 +303,24 @@ public class CloudletFragment<name> extends Fragment implements CompoundButton.O
         // Use an EditText view to get user input.
         final EditText input = new EditText(getMyAcitivty());
         input.setText("");
-        input.setVisibility(view.VISIBLE);
         builder.setView(input);
 
-        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 String value = input.getText().toString();
                 Log.d(TAG, "user input: " + value);
                 inputDialogResult = value;
                 launchTrainingActivity();
-//              AlertDialog dg =
+//                AlertDialog dg =
 //                        SelectServerAlertDialog.createDialog(
 //                                getContext(),
 //                                "Pick a Server",
 //                                getAllIps(),
-//                                launchTrainingActivityAction, cancelAction,
-//                               true);
-//               dg.show();
+//                                launchTrainingActivityAction,
+//                                cancelAction,
+//                                true);
+//                dg.show();
             }
         });
         builder.setNegativeButton("Cancel", SelectServerAlertDialog.cancelAction);
