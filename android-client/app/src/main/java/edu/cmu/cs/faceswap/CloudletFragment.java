@@ -1,15 +1,14 @@
 package edu.cmu.cs.faceswap;
 
 import android.annotation.TargetApi;
-
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-//import android.support.v4.app.Fragment;
-//import android.support.v7.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -36,13 +35,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import static edu.cmu.cs.utils.NetworkUtils.isOnline;
+import static edu.cmu.cs.utils.NetworkUtils.checkOnline;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
 import edu.cmu.cs.gabriel.Const;
 import edu.cmu.cs.gabriel.GabrielClientActivity;
 import edu.cmu.cs.gabriel.GabrielConfigurationAsyncTask;
-
 
 public class CloudletFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
     private final int LAUNCHCODE = 0;
@@ -52,15 +50,16 @@ public class CloudletFragment extends Fragment implements CompoundButton.OnCheck
     private static final String TAG = "FaceSwapFragment";
 
     private List<PersonUIRow> personUIList = new ArrayList<PersonUIRow>();
-
+    public String currentServerIp = null;
     protected Button cloudletRunDemoButton;
     protected Button addPersonButton;
     protected Button uploadStateFromFileButton;
-    protected Button uploadStateFromGoogleDriveButton;
+    protected Button uploadStateFromGoogleDriveButton,setting_save_state_local,reset,setting_save_state_googleDrive;
     protected RadioGroup typeRadioGroup;
     protected RadioButton cloudletRadioButton;
     protected RadioButton cloudRadioButton;
     protected Spinner selectServerSpinner;
+    protected Button backtomanagesrever;
 
     protected View view;
     protected List<String> spinnerList;
@@ -105,9 +104,9 @@ public class CloudletFragment extends Fragment implements CompoundButton.OnCheck
         //update PersonUIRow
         clearPersonTable();
         Log.d(TAG, "current ip changed to: " + getMyAcitivty().currentServerIp);
-//        Toast.makeText(getContext(),
-//                "current ip: "+getMyAcitivty().currentServerIp,
-//                Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),
+                "current ip: "+getMyAcitivty().currentServerIp,
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -133,12 +132,14 @@ public class CloudletFragment extends Fragment implements CompoundButton.OnCheck
         cloudRadioButton=(RadioButton)view.findViewById(R.id.radio_cloud);
         typeRadioGroup.check(R.id.radio_cloudlet);
 
+
+
         selectServerSpinner=(Spinner) view.findViewById(R.id.select_server_spinner);
         cloudletRunDemoButton =(Button)view.findViewById(R.id.cloudletRunDemoButton);
         addPersonButton = (Button)view.findViewById(R.id.addPersonButton);
-//        uploadStateFromFileButton = (Button)view.findViewById(R.id.uploadFromFileButton);
+      //  uploadStateFromFileButton = (Button)view.findViewById(R.id.uploadFromFileButton);
 //        uploadStateFromGoogleDriveButton = (Button)
-//                view.findViewById(R.id.uploadFromGoogleDriveButton);
+    //   view.findViewById(R.id.uploadFromGoogleDriveButton);
 
         tb = (TableLayout)view.findViewById(R.id.trainedTable);
         typeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -147,8 +148,15 @@ public class CloudletFragment extends Fragment implements CompoundButton.OnCheck
                 populateSelectServerSpinner();
             }
         });
-
-        cloudletRunDemoButton.setOnClickListener(new Button.OnClickListener() {
+//       if(trainedPeople.size()==0)
+//       {
+//           cloudletRunDemoButton.setVisibility(View.INVISIBLE);
+//       }
+//       else
+//       {
+//           cloudletRunDemoButton.setVisibility(View.VISIBLE);
+//       }
+cloudletRunDemoButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Const.GABRIEL_IP = getMyAcitivty().currentServerIp;
@@ -158,6 +166,7 @@ public class CloudletFragment extends Fragment implements CompoundButton.OnCheck
                 Toast.makeText(getContext(), "initializing demo", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         addPersonButton.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -329,7 +338,7 @@ public class CloudletFragment extends Fragment implements CompoundButton.OnCheck
 
 
     private String stripQuote(String input){
-        String output = input.replaceAll("^\"|\"$", "");
+        String  output = input.replaceAll("^\"|\"$", "");
         return output;
     }
 
