@@ -433,7 +433,20 @@ public class GabrielClientActivity extends Activity implements CVRenderer.CVPrev
                     Log.d(LOG_TAG, "token available. starting timer for frame");
 				}
 			}
-
+//			timeStamp = System.currentTimeMillis();
+//			boolean isPinged = false; // 2 seconds
+//			try {
+//				isPinged = InetAddress.getByName(Const.GABRIEL_IP).isReachable(2000);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			timeStamp = System.currentTimeMillis() - timeStamp;
+//			if(isPinged) {
+//				Log.d(LOG_TAG, "pinged successfully in"+ timeStamp+ "millisecond");
+//				//System.out.println("pinged successfully in "+ currentTime+ "millisecond");
+//			} else {
+//				Log.d(LOG_TAG, "Failed");
+//			}
 			//handled by resultReceivingThread!!!
 			//is measuring time different between two adjcent packet right now?
 			if (msg.what == NetworkProtocol.NETWORK_RET_RESULT) {
