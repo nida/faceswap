@@ -463,13 +463,13 @@ public class CloudletDemoActivity extends AppCompatActivity implements
 //        return true;
 //    }
 
-@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    
+    public boolean onOptionsItemSelected(View v) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
-       int id =item.getItemId();
+       int id;
+        id = v.getId();
         switch (id) {
             case R.id.manage_servers:
                 Intent i = new Intent(this, IPSettingActivity.class);
