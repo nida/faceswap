@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:gravity="center"
-        android:text="Welcome \nto  \nFaceSwap"
+        android:text="Welcome \nto  \nShodh"
         android:textColor="@color/card_background"
         android:textSize="40sp"
         android:textStyle="bold" />
